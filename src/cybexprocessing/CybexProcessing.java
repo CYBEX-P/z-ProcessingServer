@@ -179,6 +179,8 @@ public class CybexProcessing {
         MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://cybexp_user:CybExP_777@134.197.21.231:27017/"+DBName+"?authSource=admin"));
         DB db = mongo.getDB(DBName);
         DBCollection table = db.getCollection(CollectionName);
+        
+        /*
         SecretKey skey = new SecretKeySpec("1234567890987654".getBytes(), "AES");
         Cipher AESCipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         AESCipher.init(Cipher.ENCRYPT_MODE, skey);
@@ -187,14 +189,17 @@ public class CybexProcessing {
         String ss=new String(byteCipherText);
         System.out.println("Ciphered text : " + ss);
         BasicDBObject encryptedDoc = new BasicDBObject();
-        encryptedDoc.put("EncryptedSTIX", new String(byteCipherText));
+        encryptedDoc.put("EncryptedSTIX", new String(byteCipherText));*/
+         BasicDBObject encryptedDoc = new BasicDBObject();
+         encryptedDoc.put("EncryptedSTIX", s);
+        
         table.insert(encryptedDoc);
         
         
         mongo = new MongoClient(new MongoClientURI("mongodb://cybexp_user:CybExP_777@134.197.21.231:27017/report_db?authSource=admin"));
         db = mongo.getDB("report_db");
         table = db.getCollection(CollectionName);
-        skey = new SecretKeySpec("1234567890987654".getBytes(), "AES");
+        /*skey = new SecretKeySpec("1234567890987654".getBytes(), "AES");
         //IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
         AESCipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         AESCipher.init(Cipher.DECRYPT_MODE, skey);
@@ -202,11 +207,12 @@ public class CybexProcessing {
         ss=new String(decryptedText);
         System.out.println("Deciphered text : " + ss);
         
-        
+        */
         //BasicDBObject decryptedDoc = new BasicDBObject();
         //decryptedDoc.put (dbObj);
         //Document decryptedDoc=Document.parse(ss);
-        Object o = com.mongodb.util.JSON.parse(ss);
+            //Object o = com.mongodb.util.JSON.parse(ss);
+        Object o = com.mongodb.util.JSON.parse(s);
         DBObject dbObj = (DBObject) o;
         //table.insert((List<? extends DBObject>) decryptedDoc);
         table.insert(dbObj);
@@ -258,7 +264,8 @@ public class CybexProcessing {
                 System.out.println("Output: " + i + " " + lines[i]);
                 String[] cmd2 = {
                     "/usr/local/opt/python/libexec/bin/python",
-                    "/Users/Xalid/NetBeansProjects/parsemain.py",
+                    //"/Users/Xalid/NetBeansProjects/parsemain.py",
+                    "/Users/Xalid/Downloads/FOR_KHALID/parsemain.py",
                     lines[i],
                     "339522a4-9f1c-47f9-a252-d47e09f31d5a",
                     typtag, 
